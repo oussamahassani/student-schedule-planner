@@ -16,12 +16,7 @@ const UploadProfilePic = () => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', selectedFile);
-    try {
-      const response = await httpClient.post('/upload_profile_pic', formData);
-      setUploadResponse(response.data);
-    } catch (err){
-            setError(err.response.data.error);
-    }
+    
     window.location.href = "/account";
   };
 

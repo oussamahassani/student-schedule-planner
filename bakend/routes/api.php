@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmploiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FiliereController;
+use App\Http\Controllers\EnseignantController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,16 +27,27 @@ Route::group([
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);  
+    Route::get('/current_user/{email}', [AuthController::class, 'currentUser']);    
+    Route::get('/get/all_user/{filiere}', [AuthController::class, 'allUser']);    
+
 });
 // Fetch all emplois
 Route::get('/emplois', [EmploiController::class, 'getAllData']);
 
 // Fetch emplois by filiere
-Route::get('/emplois/{filiere}', [EmploiController::class, 'getByFiliere']);
+Route::get('/emplois/byStudent/{filiere}', [EmploiController::class, 'getByFiliere']);
 
+Route::get('/emplois/byensignent/{enseignemnt}', [EmploiController::class, 'getByEnseignemnt']);
 // Fetch emplois by filiere and type
-Route::get('/emplois/{filiere}/{type}', [EmploiController::class, 'getByFiliereAndType']);
+Route::get('/emplois/byFilter/{filiere}/{type}', [EmploiController::class, 'getByFiliereAndType']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/filiere', [FiliereController::class, 'getAllData']);
+
+Route::get('/enseignant', [EnseignantController::class, 'getAllData']);
+
+// Fetch emplois by filiere
+Route::get('/enseignant/{name}', [EnseignantController::class, 'getByName']);
+Route::get('/byenseignant/{email}', [EnseignantController::class, 'getByEmail']);

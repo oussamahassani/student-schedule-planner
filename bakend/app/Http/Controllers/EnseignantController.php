@@ -17,7 +17,7 @@ class EnseignantController extends Controller
 
     public function __construct()
     {
-        return $this->middleware('auth');
+      //  return $this->middleware('auth');
     }
 
     public function index()
@@ -55,7 +55,8 @@ class EnseignantController extends Controller
             'nom' => 'required',
             'prenoms' => 'required',
             'email' => 'required',
-            'specialite' => 'required'
+            'specialite' => 'required',
+            'password'=> 'required',
          
             ]);
             $enseignant = new Enseignant;
@@ -63,7 +64,7 @@ class EnseignantController extends Controller
             $enseignant->prenoms = $request->prenoms;
             $enseignant->email = $request->email;
             $enseignant->specialite = $request->specialite;
-          
+            $enseignant->password = bcrypt($request->password);
             $enseignant->save();
             return redirect()->route('enseignants.index')
             ->with('success','enseignant has been created successfully.');
@@ -100,11 +101,13 @@ class EnseignantController extends Controller
      */
     public function update(Request $request, $id)
     {
+      
         $request->validate([
             'nom' => 'required',
             'prenoms' => 'required',
             'email' => 'required',
             'specialite' => '',
+            'password' => 'required',
           
             ]);
             $enseignant = Enseignant::find($id);
@@ -112,7 +115,9 @@ class EnseignantController extends Controller
             $enseignant->prenoms = $request->prenoms;
             $enseignant->email = $request->email;
             $enseignant->specialite = $request->specialite;
+            $enseignant->password = bcrypt($request->password);
             $enseignant->save();
+          
             return redirect()->route('enseignants.index')
             ->with('success','enseignant Has Been updated successfully');
     }
@@ -129,4 +134,20 @@ class EnseignantController extends Controller
         return redirect()->route('enseignants.index')
         ->with('success','enseignant has been deleted successfully');
     }
+
+    public function getAllData()
+    {
+        return Enseignant::all();
+    }
+
+    // Fetch emplois by filiere
+    public function getByName($name)
+    {
+        return Enseignant::where('codeenseignant', $name)->first();
+    }
+    public function getByEmail($email)
+    {
+        return Enseignant::where('email', $email)->first();
+    }
+    
 }

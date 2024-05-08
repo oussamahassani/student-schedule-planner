@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('prenoms');
             $table->string('email');
             $table->string('specialite');
+            $table->string('password');
+            
             $table->timestamps();
         });
     }

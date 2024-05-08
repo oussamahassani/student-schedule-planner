@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import "./Sign-up.css"
 import httpClient from "../../httpClient";
 import logo3 from '../../public/logo3.png'
@@ -8,10 +8,20 @@ import logo3 from '../../public/logo3.png'
  * @returns {JSX.Element} Returns the JSX element with registration form.
  */
 const Sign_Up = ()=> {
+  const [filiere, setFiliere] = useState([]);
   /**
    * State to store user's email.
    */
   const [email, setEmail] = useState("");
+  useEffect(() => {
+    httpClient.get("/filiere")
+    .then(res => setFiliere(res.data))
+     .catch(err => console.log(err))
+    return () => {
+      
+    }
+  }, [])
+  const [selectedfiliere, setFiliereSelected] = useState();
 
   /**
    * State to store user's password.
@@ -39,11 +49,13 @@ const Sign_Up = ()=> {
    */
   const registerUser = async () => {
     try {
-      const resp = await httpClient.post("/sign-up", {
+      const resp = await httpClient.post("/auth/register", {
         email,
         password,
-        fName,
-        lName
+        password_confirmation:password,
+        name:fName,
+        lName,
+        id_filiere:selectedfiliere
       });
 
       console.log(resp.data)
@@ -97,6 +109,16 @@ const Sign_Up = ()=> {
                 onChange={(e) => setLName(e.target.value)}
                 id=""
               />
+            </div>
+            <div>
+              <p className="initialP">Classe</p>
+              <select
+                value={selectedfiliere}
+                onChange={(e) => setFiliereSelected(e.target.value)}
+                id=""
+              >{filiere.map((el,index) => {return(<option key={index} value={el.id_filiere}>{el.cycle +"-"+ el.nomfil}</option>)}
+  )}
+                </select>
             </div>
             <button className="initialButton" type="button" onClick={() => registerUser()}>
               Submit

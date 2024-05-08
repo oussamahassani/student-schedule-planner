@@ -51,20 +51,7 @@ Route::resource('salles', SalleController::class);
 //Route groupe
 Route::resource('groupes', GroupeController::class);
 
-//Route pour emploi du temps utilisateurs
-Route::resource('edt', EdtController::class);
-Route::resource('nivo', NiveauController::class);
-Route::resource('tl', TlController::class);
-Route::resource('ce', CeController::class);
-Route::resource('grh', GrhController::class);
-Route::resource('ci', CiController::class);
-Route::resource('droit', DroitController::class);
-Route::resource('finance', FinanceController::class);
-Route::resource('seg', SegController::class);
-Route::resource('mgc', MgcController::class);
-Route::resource('mp', MpController::class);
-Route::resource('ba', BaController::class);
-Route::resource('master', MasterController::class);
+
 
 
 

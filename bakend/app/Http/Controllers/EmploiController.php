@@ -15,7 +15,7 @@ class EmploiController extends Controller
 
      public function __construct()
      {
-         return $this->middleware('auth');
+       //  return $this->middleware('auth');
      }
  
 
@@ -130,14 +130,19 @@ class EmploiController extends Controller
     // Fetch emplois by filiere
     public function getByFiliere($filiere)
     {
-        return EmploiDuTemps::where('filiere', $filiere)->get();
+        return EmploiDuTemps::where('filiere_id', $filiere)->get();
     }
 
     // Fetch emplois by filiere and type
     public function getByFiliereAndType($filiere, $type)
     {
-        return EmploiDuTemps::where('filiere', $filiere)
+        return EmploiDuTemps::where('filiere_id', $filiere)
                      ->where('type', $type)
                      ->get();
+    }
+
+
+    public function getByEnseignemnt($enseignemnt){
+        return EmploiDuTemps::where('enseignant', $enseignemnt)->get();
     }
 }

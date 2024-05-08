@@ -29,7 +29,7 @@ const Dash = () => {
       clearInterval(intervalId);
     };
   }, []);
-
+/*
   //Grabs time of class and associated message from database
   fetch('/upcoming_notification')
     .then(response => response.json())
@@ -56,39 +56,12 @@ const Dash = () => {
     });
  
   
+*/
 
-//   const showToast = () => {
-//       toast('Hello World', {
-//           data: {
-//               title: 'Hello World Again',
-//               text: 'We are here again with another article'
-//           }
-//       });
-//   };
-//   const showSuccessToast = () => {
-//       toast.success('Hello World', {
-//           data: {
-//               title: 'Success toast',
-//               text: 'This is a success message'
-//           }
-//       });
-//   };
-//   const showErrorToast = () => {
-//       toast.error('Hello World', {
-//           data: {
-//               title: 'Error toast',
-//               text: 'This is an error message'
-//           }
-//       });
-// };
   return (
       <div>
           <p>{notifications.length}</p>
-          {/* <button onClick={showToast}>Default</button>
-          <button onClick={showSuccessToast}>Success</button>
-          <button onClick={showErrorToast}>Error</button>
-          <br />
-          <br /> */}
+        
           <button onClick={clear}>Clear Notifications</button>
           <button onClick={() => markAllAsRead()}>Mark all as read</button>
           <ul>

@@ -7,7 +7,7 @@ import {toast} from "react-toastify";
 
 const DeleteAccount = () =>{
     const deleteAccount = async () => {
-        await httpClient.post("/DeleteAccount", {});
+   
         toast.success("Password updated successfully!");
         window.location.href = "/";
     }

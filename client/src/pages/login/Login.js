@@ -13,6 +13,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+    const [selectedOption, setSelectedOption] = useState('user');
+  
+    const handleOptionChange = (e) => {
+      setSelectedOption(e.target.value);
+    };
+  
+
   /**
    * Sends a POST request to the login endpoint with email and password.
    * Redirects user to homepage if login is successful.
@@ -23,14 +30,21 @@ const Login = () => {
     console.log(email, password);
 
     try {
-      const resp = await httpClient.post("/login", {
+      const resp = await httpClient.post("/auth/login", {
         email,
         password,
+        user_type:selectedOption,
       });
 
       console.log(resp.data)
-      if (resp.data) {
+      if (resp.data && resp.data.user)  {
+        let localEmail = localStorage.setItem("email",resp.data.user.email)
+        let roleName = localStorage.setItem("role",resp.data.role);
+      
         window.location.href = "/calendar";
+      }
+      else {
+        alert("mot de passe ou user incorrect")
       }
 
     } catch (err) {
@@ -55,6 +69,36 @@ const Login = () => {
                 id=""
               />
             </div>
+      
+             
+    <div >
+      <p>
+        <input
+          type="radio"
+          value="enseignement"
+          checked={selectedOption === 'enseignement'}
+          onChange={handleOptionChange}
+          className="with-auto"
+        />
+        Enseignant
+      </p>
+      </div>
+      <p>
+        <input
+          type="radio"
+          value="user"
+          className="with-auto"
+          checked={selectedOption === 'user'}
+          onChange={handleOptionChange}
+        />
+        User
+      </p>
+  
+
+
+
+            
+      
             <div>
               <p className="initialP">Password</p>
               <input

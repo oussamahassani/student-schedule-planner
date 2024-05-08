@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Enseignant;
 use Validator;
 
 
@@ -16,7 +17,7 @@ class AuthController extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','currentUser' ,'allUser']]);
     }
 
     /**
@@ -34,11 +35,21 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if (! $token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+       
+        if ($request->user_type === 'user') {
+            if (! $token = auth('user')->attempt($validator->validated())) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
         }
-
-        return $this->createNewToken($token);
+        // Vérifier l'authentification sur la table "enseignement"
+        elseif ($request->user_type === 'enseignement') {
+            if (! $token = auth('enseignant')->attempt($validator->validated())) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+        } else {
+            return response()->json(['error' => 'Invalid user type'], 422);
+        }
+        return $this->createNewToken($token, $request->user_type);
     }
 
     /**
@@ -106,17 +117,40 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function createNewToken($token){
-       $user = User::join('filieres', 'users.id_filiere', '=', 'filieres.id_filiere')
-        ->select('users.*', 'filieres.*')
-        ->first(); ;
-
+    protected function createNewToken($token , $role){
+        if($role == 'user'){
+            $user = User::join('filieres', 'users.id_filiere', '=', 'filieres.id_filiere')
+            ->select('users.*', 'filieres.*')
+            ->first(); 
+    
+        }
+       else if ($role == 'enseignement'){
+        $user = auth('enseignant')->user();
+       }
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
          //   'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => $user //auth()->user()
+            'user' => $user , //auth()->user()
+            'role' =>$role
         ]);
     }
 
+    public function currentUser( $email){
+        $user = User::where('email', $email)->first();
+        return response()->json([
+            'success' => true,
+           'user' => $user 
+        ]);
+    }
+
+    public function allUser($filiere){
+        $user = User::where('id_filiere', $filiere)->get();
+        return response()->json([
+            'success' => true,
+            'filiere' => $filiere,
+
+           'user' => $user 
+        ]);
+    }
 }

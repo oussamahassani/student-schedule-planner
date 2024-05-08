@@ -5,7 +5,7 @@ import * as Ai from 'react-icons/ai';
 
 import React from 'react'
 
-export const NavData = [
+export const NavDataEnseignent = [
     {
         title: 'Calendar',
         path: '/calendar',
@@ -14,20 +14,15 @@ export const NavData = [
         cName: 'nav-text'
     },
     {
-        title: 'Courses',
+        title: 'Emploi enseignement',
         path: '/courses',
         // icon: <Tfi.TfiNotepad />,
         icon: <Im.ImBook/>,
         cName: 'nav-text',
     },
+   
     {
-        title: 'Ratings',
-        path: '/ratings',
-        icon: <Ai.AiFillStar />,
-        cName: 'nav-text',
-    },
-    {
-        title: 'Friends',
+        title: 'Classes',
         path: '/friends',
         icon: <Fa.FaUserFriends />,
         cName: 'nav-text',

@@ -10,27 +10,11 @@ const Account = () =>{
 
     const [user, setUser] = useState(null);
     const [profilePicURL, setProfilePicURL] = useState("");
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [uploadResponse, setUploadResponse] = useState(null);
-    const [error, setError] =useState("");
 
-    const handleFileSelect = (event) => {
-     setSelectedFile(event.target.files[0]);
-    };
+    const [role, setrole] =useState(localStorage.getItem("role"));
 
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      try {
-        const response = await httpClient.post('/upload_profile_pic', formData);
-        setUploadResponse(response.data);
-      } catch (err){
-          setError(err.response.data.error);
-      }
-      window.location.href = "/account";
-    };
+
      /**
      * Fetches user data from backend and sets it to state.
      * @function useEffect
@@ -39,20 +23,18 @@ const Account = () =>{
     useEffect(() => {
     (async () => {
         try {
-            const resp = await httpClient.get("/current_user");
-            setUser(resp.data);
-            console.log(resp.data.profile_pic)
-            if (resp.data.profile_pic) {
-                const profilePic = await httpClient.get(
-                    `/upload_profile_pic/${resp.data.profile_pic}`,
-                    {
-                        responseType: "blob",
-                    }
-                );
-                const profilePicObjectURL = URL.createObjectURL(profilePic.data);
-                setProfilePicURL(profilePicObjectURL);
-            }
-
+            let localEmail = localStorage.getItem("email")
+       if(role == "user"){
+        const resp = await httpClient.get("/auth/current_user/"+localEmail);
+        if(resp.data){
+            setUser(resp.data.user);
+        
+        }
+    }
+    else {
+        const resp = await httpClient.get("/byenseignant/"+localEmail);
+        setUser(resp.data);
+    }
         } catch (error) {
             console.log("Error");
         }
@@ -65,7 +47,7 @@ const Account = () =>{
      * @returns {Promise<void>}
      */
     const logoutUser = async () => {
-        await httpClient.post("/logout");
+        localStorage.clear()
         window.location.href = "/";
     };
 
@@ -90,14 +72,9 @@ const Account = () =>{
                           </Link>
                         )}
 
-                        <h3>{user.fName} {user.lName}</h3>
+                        <h3>{user.name}</h3>
                         <h5>{user.email}</h5>
-                        <Link to="/ChangePassword">
-                            <button className="accountBtn">Reset Password</button><br/>
-                        </Link>
-                        <Link to="/DeleteAccount">
-                            <button className="accountBtn" >Delete account</button><br/>
-                        </Link>
+                       
                         <button onClick={logoutUser} className="accountBtnL" >Logout</button><br/>
                     </>
                 ) : (

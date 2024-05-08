@@ -54,6 +54,14 @@
 @enderror
 </div>
 </div>
+<div class="form-group">
+<strong>password </strong>
+<input type="password" name="password" value="{{ $enseignant->password }}" class="form-control" placeholder="password">
+@error('password')
+<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+@enderror
+</div>
+</div>
 <div class="col-xs-12 col-sm-12 col-md-12">
 <div class="form-group">
 <strong>Specialité </strong>

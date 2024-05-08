@@ -1,43 +1,36 @@
-import './styles.css'
-import React, { Component   } from "react"
+import React, { Component } from "react"
 import { Link } from "react-router-dom";
 import { renderToString } from 'react-dom/server';
 import * as Cg from 'react-icons/cg';
-import generatePDF from 'react-to-pdf';
 
 const daysOfWeek = ['1', '2', '3', '4', '5', '6', '7'];
 /**
  * @return the user's calendar with their events
  */
-class Calendar extends Component {
 
-localEmail = localStorage.getItem("email")
-role = localStorage.getItem("role")
+class Calendar extends Component {
     constructor(props) {
         super(props);
-        this.componentRef = React.createRef();
-
         this.state = { events: [], selectedEvent: null, descBox: null , recherche:null,SavedData:[] };
     }
-
+    componentDidUpdate(prevProps) {
+        console.log(this.props.nameensigent)
+         console.log(prevProps.nameensigent)
+        if (this.props.nameensigent !== prevProps.nameensigent) {
+          console.log('codeenseignant changed:', this.props.nameensigent  );
+          console.log("prevent propos" , prevProps.codeenseignant)
+          this.addEventsToCalendar(this.props.nameensigent)
+        }
+      }
     /**
      * Displays user's courses on the calendar
     */
-    addEventsToCalendar = () => {
-        if(this.role =="user"){
-        fetch("/auth/current_user/"+this.localEmail)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("User identity error");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                const userEmail = data.user.id_filiere;
-                fetch(`/emplois/byStudent/${userEmail}`)
+    addEventsToCalendar = (nameensigen) => {
+      
+                fetch(`/emplois/byensignent/${nameensigen}`)
                     .then((response) => {
                         if (!response.ok) {
-                            throw new Error(`Unable to get  for ${userEmail}`);
+                            throw new Error(`Unable to get courses for ${nameensigen}`);
                         }
                         return response.json();
                     })
@@ -62,55 +55,15 @@ role = localStorage.getItem("role")
                     .catch((error) => {
                         console.error(error);
                     });
-            });
-        } else {
-            fetch("/byenseignant/"+this.localEmail)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("User identity error");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data,data.codeenseignant)
-                const codeenseignant = data.codeenseignant;
-                fetch(`/emplois/byensignent/${codeenseignant}`)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`Unable to get for ${codeenseignant}`);
-                        }
-                        return response.json();
-                    })
-                    .then((classes) => {
-                        const updatedEvents = [...this.state.events];
-                        classes.forEach((c) => {
-                            const classNum = c.salle;
-                            const subject = c.module;
-                            const description = c.enseignant;
-                            const day = c.jour;
-                            const startTime = c.hdebut;
-                            const endTime = c.hfin;
-                            const type = c.type;
-                            const events = this.state.events.slice();
-                            updatedEvents.push({ description, day, startTime, endTime, classNum, subject,type });
-                            this.setState({ events });
-                           
-                        });
-                        this.setState({ events: updatedEvents });
-                        this.setState({SavedData:updatedEvents})
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            });
-        }
+         
     };
 
     /**
      * Calls addEvents to calendar at runtime
     */
     componentDidMount() {
-        this.addEventsToCalendar();
+        let codeenseignant = this.props.nameensigent
+        this.addEventsToCalendar(codeenseignant);
     }
     onchangeFilter(event){
         let value = event.target.value ;
@@ -265,7 +218,7 @@ console.log(startTime)
     render() {
         return (
             <div className="wrapper1">
-      {this.role== "user" && <div>
+    {/* <div>
         <label>filter emploi </label>
         <select name="filter" onChange={(event) =>this.onchangeFilter(event)}>
             <option value={""}>all cours</option>
@@ -274,10 +227,8 @@ console.log(startTime)
             <option value={"CT"}>Cours</option>
 
         </select>
-       </div> }
-       <button className="btn btn-primary" onClick={() => generatePDF(this.componentRef, {filename: 'page.pdf'})}>Download PDF</button>
-
-                <div className="calWrapper" ref={this.componentRef}>
+        </div>*/}
+                <div className="calWrapper">
                     <div className="time-slot">
                         <div className="day-header"></div>
                         <ul>

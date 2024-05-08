@@ -15,7 +15,7 @@ class FiliereController extends Controller
 
      public function __construct()
      {
-         return $this->middleware('auth');
+        // return $this->middleware('auth');
      }
 
 
@@ -110,5 +110,14 @@ class FiliereController extends Controller
         $filiere->delete();
         return redirect()->route('filieres.index')
         ->with('success','filiere has been deleted successfully');
+    }
+
+    public function getByFiliere($filiere)
+    {
+        return Filiere::where('id_filiere', $filiere)->get();
+    }
+    public function getAllData()
+    {
+        return Filiere::all();
     }
 }
