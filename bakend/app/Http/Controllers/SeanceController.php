@@ -124,7 +124,11 @@ class SeanceController extends Controller
             $emploi->salle = $request->salle;
             $emploi->enseignant = $request->enseignant;
             $emploi->module = $request->module;
-            $emploi->filiere = $request->filiere;
+            $emploi->filiere_id = $request->filiere;
+            $emploi->filiere = $request->filiere_name_hidden;
+            
+            $emploi->groups = $request->groups;
+            
            
           
             $emploi->save();

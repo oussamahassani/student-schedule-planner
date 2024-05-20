@@ -40,7 +40,11 @@ const Login = () => {
       if (resp.data && resp.data.user)  {
         let localEmail = localStorage.setItem("email",resp.data.user.email)
         let roleName = localStorage.setItem("role",resp.data.role);
-      
+        if(resp.data && resp.data.user &&resp.data.groups ){
+          let groups = localStorage.setItem("groups",resp.data.groups);
+
+        }
+
         window.location.href = "/calendar";
       }
       else {

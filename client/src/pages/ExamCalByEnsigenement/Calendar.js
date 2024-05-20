@@ -43,9 +43,9 @@ class Calendar extends Component {
                             const day = c.jour;
                             const startTime = c.hdebut;
                             const endTime = c.hfin;
-                            const type = c.type;
+                      
                             const events = this.state.events.slice();
-                            updatedEvents.push({ description, day, startTime, endTime, classNum, subject,type });
+                            updatedEvents.push({  day, startTime, endTime, classNum, subject });
                             this.setState({ events });
                            
                         });
@@ -66,17 +66,7 @@ class Calendar extends Component {
         this.addEventsToCalendar(codeenseignant);
     }
     onchangeFilter(event){
-        let value = event.target.value ;
-        console.log(value)
-   this.setState({recherche :value })
-   if(value != ""){
-   let filterData = this.state.SavedData.filter(el => el.type ==value)
-   this.setState({events : filterData})
-   }
-   else {
-   
-    this.setState({events : this.state.SavedData})
-   }
+ 
     }
 
     /**
@@ -89,7 +79,7 @@ class Calendar extends Component {
 
         const { selectedEvent, descBox } = this.state;
         if (selectedEvent === event) {
-            descBox.remove();
+            
             this.setState({ selectedEvent: null, descBox: null });
             return;
         }
@@ -124,7 +114,7 @@ class Calendar extends Component {
         descText.className = 'desc-text';
         const profText = document.createElement('div');
         
-        profText.innerHTML = event.description + ' - ' + event.classNum;
+        profText.innerHTML =  event.classNum;
         profText.className = 'profText';
         const closeButton = document.createElement('div');
         closeButton.innerHTML = renderToString(<Cg.CgClose />);
@@ -147,7 +137,10 @@ class Calendar extends Component {
      * @param descBox - description box for selected event
      */
     handleCloseBoxClick = (e, descBox) => {
-        descBox.remove();
+       
+        if(descBox){
+            descBox.remove();
+        }
         this.setState({ selectedEvent: null, descBox: null });
     };
 
@@ -157,41 +150,24 @@ class Calendar extends Component {
      */
     renderEvents = (dayOfWeek) => {
         return this.state.events.map((event) => {
-            console.log(event)
-            console.log(dayOfWeek)
+         
             if (event.day.includes(dayOfWeek)) {
                 const startTime = event.startTime.split(":");
                 let startHour, startMinute;
                 startHour = startTime[0]
                 startMinute=startTime[1]
-console.log(startTime)
-               /* if (startTime >= 1000) { // 4 digit input
-                    startHour = Math.floor(startTime / 100);
-                    console.log(startHour)
-                    startMinute = startTime % 100;
-                } else { // 3 digit input
-                    startHour = Math.floor(startTime / 100);
-                    startMinute = startTime % 100;
-                }
-*/
+
                 const endTime = event.endTime.split(":");
                 let endHour, endMinute;
                 endHour=endTime[0]
                 endMinute = endTime[1]
-              /*  if (endTime >= 1000) {
-                    endHour = Math.floor(endTime / 100);
-                    endMinute = endTime % 100;
-                } else {
-                    endHour = Math.floor(endTime / 100);
-                    endMinute = endTime % 100;
-                }*/
+            
 
                 const duration = (endHour - startHour) * 60 + (endMinute - startMinute);
 
 
                 if (startHour >= 7 && endHour <= 21 && startHour < endHour) {
-                    console.log(startHour,startMinute)
-                    console.log(duration,endHour)
+          
 
                     return (
                         <li
@@ -203,9 +179,9 @@ console.log(startTime)
                             }}
                             onClick={(e) => this.handleEventClick({ ...event, target: e.currentTarget }, dayOfWeek)}
                         >
-                            {/*{event.eventName}*/}
-                            <div className="eventNameTime">
-                                {event.subject} {event.classNum} ({event.type =="CT" ? "Cours" :event.type })
+                           
+                           <div className="eventNameTime">
+                                {event.subject} {event.classNum} 
                             </div>
                         </li>
                     );
@@ -218,16 +194,7 @@ console.log(startTime)
     render() {
         return (
             <div className="wrapper1">
-    {/* <div>
-        <label>filter emploi </label>
-        <select name="filter" onChange={(event) =>this.onchangeFilter(event)}>
-            <option value={""}>all cours</option>
-            <option value={"TD"}>TD Cours</option>
-            <option value={"TP"}>TP Cours</option>
-            <option value={"CT"}>Cours</option>
 
-        </select>
-        </div>*/}
                 <div className="calWrapper">
                     <div className="time-slot">
                         <div className="day-header"></div>

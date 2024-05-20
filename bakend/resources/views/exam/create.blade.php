@@ -44,27 +44,17 @@
 
                 <div class=" form-group text-dark">
                 <label for="hdebut"><b>Filière</b> </label>
-                <select name="filiere" id="" class="form-control ">
+                <select name="filiere" id="filiere" class="form-control ">
         <option value=""> -Select- </option>
                 @foreach ($data as $filiere)
                
-                <option value="{{   $filiere->nomfil}}">{{$filiere -> nomfil}}</option>
+                <option value="{{$filiere->id_filiere}}">{{$filiere -> nomfil}}</option>
                 @endforeach
             </select>
             </div>
 
-                
-                <!--<div class="  form-group text-dark">
-                        <label for="type"><b><b>TYPE DE SEANCE</b></b> </label>
-                        <select name="type" id="type" class=" form-control " >
-                        <option value="" selected> -Select- </option>
-                        <option value="CT" > Cours Theorique </option>
-                        <option value="TD" > Travaux Dirigés </option>
-                        <option value="TP" > Travaux Pratiques </option>
-                                
-                        </select>
-              
-                </div> -->
+            <input type="hidden" id="filiere_name_hidden" name="filiere_name_hidden" value="">
+        
        
 
             
@@ -120,3 +110,16 @@
         </div>
 </body>
 </html>
+
+<script>
+
+    document.getElementById('filiere').addEventListener('change', function() {
+        var selectElement = document.getElementById('filiere');
+        var hiddenInputElement = document.getElementById('filiere_name_hidden');
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var selectedFiliereId = selectedOption.value;
+        var selectedFiliereNom = selectedOption.text;
+        console.log(selectedFiliereNom);
+        hiddenInputElement.value =  selectedFiliereNom; // Concatenate filiere_id and nomfil with a delimiter
+    });
+    </script>

@@ -136,7 +136,10 @@ role = localStorage.getItem("role")
 
         const { selectedEvent, descBox } = this.state;
         if (selectedEvent === event) {
-            descBox.remove();
+            if(descBox && descBox != null){
+                descBox.remove();
+            }
+      
             this.setState({ selectedEvent: null, descBox: null });
             return;
         }

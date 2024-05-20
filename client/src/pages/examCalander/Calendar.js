@@ -46,13 +46,13 @@ role = localStorage.getItem("role")
                         classes.forEach((c) => {
                             const classNum = c.salle;
                             const subject = c.module;
-                            const description = c.enseignant;
+                          //  const description = c.enseignant;
                             const day = c.jour;
                             const startTime = c.hdebut;
                             const endTime = c.hfin;
-                            const type = c.type;
+                           // const type = c.type;
                             const events = this.state.events.slice();
-                            updatedEvents.push({ description, day, startTime, endTime, classNum, subject,type });
+                            updatedEvents.push({ day, startTime, endTime, classNum, subject });
                             this.setState({ events });
                            
                         });
@@ -86,13 +86,13 @@ role = localStorage.getItem("role")
                         classes.forEach((c) => {
                             const classNum = c.salle;
                             const subject = c.module;
-                            const description = c.enseignant;
+                          //  const description = c.enseignant;
                             const day = c.jour;
                             const startTime = c.hdebut;
                             const endTime = c.hfin;
-                            const type = c.type;
+                            //const type = c.type;
                             const events = this.state.events.slice();
-                            updatedEvents.push({ description, day, startTime, endTime, classNum, subject,type });
+                            updatedEvents.push({ day, startTime, endTime, classNum, subject });
                             this.setState({ events });
                            
                         });
@@ -113,17 +113,7 @@ role = localStorage.getItem("role")
         this.addEventsToCalendar();
     }
     onchangeFilter(event){
-        let value = event.target.value ;
-        console.log(value)
-   this.setState({recherche :value })
-   if(value != ""){
-   let filterData = this.state.SavedData.filter(el => el.type ==value)
-   this.setState({events : filterData})
-   }
-   else {
-   
-    this.setState({events : this.state.SavedData})
-   }
+    
     }
 
     /**
@@ -174,7 +164,7 @@ role = localStorage.getItem("role")
         descText.className = 'desc-text';
         const profText = document.createElement('div');
         
-        profText.innerHTML = event.description + ' - ' + event.classNum;
+        profText.innerHTML =  ' - ' + event.classNum;
         profText.className = 'profText';
         const closeButton = document.createElement('div');
         closeButton.innerHTML = renderToString(<Cg.CgClose />);
@@ -254,9 +244,11 @@ console.log(startTime)
                             onClick={(e) => this.handleEventClick({ ...event, target: e.currentTarget }, dayOfWeek)}
                         >
                             {/*{event.eventName}*/}
+                          
                             <div className="eventNameTime">
-                                {event.subject} {event.classNum} ({event.type =="CT" ? "Cours" :event.type })
+                                {event.subject} {event.classNum} 
                             </div>
+                         
                         </li>
                     );
                 }
@@ -268,7 +260,7 @@ console.log(startTime)
     render() {
         return (
             <div className="wrapper1">
- 
+ <h1>Liste des Examan</h1>
        <button className="btn btn-primary" onClick={() => generatePDF(this.componentRef, {filename: 'page.pdf'})}>Download PDF</button>
 
                 <div className="calWrapper" ref={this.componentRef}>

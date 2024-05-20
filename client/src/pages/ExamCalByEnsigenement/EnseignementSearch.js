@@ -73,6 +73,7 @@ return <Calendar nameensigent={codeenseignant}/>
 
   return (
     <div className="course-wrapper">
+       <h1>Liste des Examan par Enseignant</h1>
       <div className="CourseSearch">
         <div className="searchContainer">
           <div className="searchInputs">

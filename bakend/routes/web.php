@@ -50,6 +50,7 @@ Route::resource('enseignants', EnseignantController::class);
 //Route emploi
 Route::resource('seances', SeanceController::class);
 Route::resource('exam', ExamController::class);
+Route::delete('examandestroyOne/{exam}', [ExamController::class, 'destroyOne'])->name('examandestroyOne.destroyOne');
 
 //Route salle
 Route::resource('salles', SalleController::class);

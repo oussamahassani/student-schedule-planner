@@ -25,55 +25,11 @@ class ExamController extends Controller
     public function index()
     {
       
-        $data = Filiere::all();
-        $salle = Salle::all();
-        $ens = Enseignant::all();
-        $module = Module::all();
-        $fil = EmploiDuTempsExam::all();
-        $a = EmploiDuTempsExam::all();
-        $b = EmploiDuTempsExam::all();
-        $c = EmploiDuTempsExam::all();
-        $d = EmploiDuTempsExam::all();
-        $e = EmploiDuTempsExam::all();
-        $f = EmploiDuTempsExam::all();
-        $g = EmploiDuTempsExam::all();
-        $h = EmploiDuTempsExam::all();
-        $i = EmploiDuTempsExam::all();
-        $j = EmploiDuTempsExam::all();
-        $k = EmploiDuTempsExam::all();
-        $l = EmploiDuTempsExam::all();
-        $m = EmploiDuTempsExam::all();
-        $n = EmploiDuTempsExam::all();
-        $o = EmploiDuTempsExam::all();
-        $p = EmploiDuTempsExam::all();
-        $q = EmploiDuTempsExam::all();
-        $r = EmploiDuTempsExam::all();
+        $data = EmploiDuTempsExam::all();
+
     
         return view('exam.index', [
-            'data' =>$data,
-             'fil' =>$fil,
-             'a' =>$a,
-             'b' =>$b,
-             'c' =>$c,
-             'd' =>$d,
-             'e' =>$e,
-          
-               'f' =>$f,
-               'g' =>$g,
-               'h' =>$h,
-               'i' =>$i,
-               'j' =>$j,
-               'k' =>$k,
-               'l' =>$l, 
-               'salle' =>$salle,
-                'ens' =>$ens, 
-                'm' =>$m,
-                'n' =>$n,
-                'o' =>$o,
-                'p' =>$p,
-                'q' =>$q,
-                'r' =>$r,
-                'module' =>$module ]);
+            'data' =>$data ]);
     }
     
 
@@ -117,10 +73,12 @@ class ExamController extends Controller
             $emploi->salle = $request->salle;
             $emploi->enseignant = $request->enseignant;
             $emploi->module = $request->module;
-            $emploi->filiere = $request->filiere;
-           
-          
+            $emploi->filiere_id = $request->filiere;
+            $emploi->filiere = $request->filiere_name_hidden;
+       
+
             $emploi->save();
+          
             return redirect()->route('exam.create')
             ->with('success','seance has been created successfully.');
     }
@@ -179,12 +137,7 @@ class ExamController extends Controller
             ->with('success','exam has Been updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function destroy()
     {
         $seance = EmploiDuTempsExam::all();
@@ -194,7 +147,12 @@ class ExamController extends Controller
         return redirect()->route('exam.index')
         ->with('success','Retablie avec success');
     }
-
+    public function destroyOne(EmploiDuTempsExam $exam)
+    {
+        $exam->delete();
+        return redirect()->route('exam.index')
+        ->with('success','exam has been deleted successfully');
+    }
     public function getByFiliere($filiere)
     {
         return EmploiDuTempsExam::where('filiere_id', $filiere)->get();
