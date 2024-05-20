@@ -7,7 +7,7 @@
                 <div class="text-center">
                     <a href="{{ route('dashboard') }}">
                             
-                        <img src="\img\logo_esc.jpg" class="img-responsive w-100 h-100 d-block mx-auto rounded-circle" alt="logo">
+                        <img src="\img\logo_esc.png" class="img-responsive w-100 h-100 d-block mx-auto rounded-circle" alt="logo">
                                 <!-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                                     -->
                         </a>
@@ -42,6 +42,9 @@
                                         <!-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                                 {{ __('Modules') }}
                                             -->
+                                            
+                                <li class="nav-item"><a class="nav-link" href="{{ route('exam.index') }}"><b>EMPLOIS DU TEMPS Examan</b></a></li>
+
                                             <!--</x-nav-link>-->
                                         <li class="nav-item"> <a class="nav-link" href="{{ route('salles.index') }}"><button><b>SALLES</b></button></a></li>
                                             <!--<x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">

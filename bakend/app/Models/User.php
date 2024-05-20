@@ -24,7 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'id_filiere'
+        'id_filiere',
+        'groups'
     
     ];
 

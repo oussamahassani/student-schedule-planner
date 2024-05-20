@@ -12,7 +12,7 @@
 <navbar>
 <div class="row">
         <div class="col-1">
-        <a href="/"><img src="\img\logo_esc.jpg" class="img-responsive w-100 d-block mx-auto rounded-circle" alt="logo"></a>
+        <a href="/"><img src="\img\logo_esc.png" class="img-responsive w-100 d-block mx-auto rounded-circle" alt="logo"></a>
 </div>
         
             <div class="col-11">  
@@ -21,13 +21,18 @@
                                 <!--<x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                     {{ __('Accueil') }}
                                 -->
+
                             <!-- </x-nav-link>-->
                             @can('access-admin')
                                 <li class="nav-item"><a class="nav-link" href="{{ route('seances.index') }}"><b>EMPLOIS DU TEMPS</b></a></li>
+
                                 @endcan
                             
                                 @can('deny-admin')
                                 <li class="nav-item"><a class="nav-link" href="{{ route('edt.index') }}"><b>EMPLOIS DU TEMPS</b></a></li>
+                                @endcan
+                                @can('access-admin')
+                                <li class="nav-item"><a class="nav-link" href="{{ route('exam.index') }}"><b>EMPLOIS DU TEMPS Examan</b></a></li>
                                 @endcan
                                 <!--<x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                     {{ __('Emploi du temps') }}

@@ -14,7 +14,7 @@
 
 
 <div class="text-center col-6 offset-3 mt-3 mb-1">
-                    <img src="\img\logo_esc.jpg" class="img-responsive w-25 h-25 d-block mx-auto rounded-circle" alt="logo">
+                    <img src="\img\logo_esc.png" class="img-responsive w-25 h-25 d-block mx-auto rounded-circle" alt="logo">
         </div>
         <h1 class="text-center text-primary">EMPLOI DU TEMPS DE LA SEMAINE</h1>
 <div class="row ">

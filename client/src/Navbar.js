@@ -6,11 +6,12 @@ import Button from "react-bootstrap/Button";
 
 const Navbar = () => {
     const [user, setUser] = useState(null);
+   let  localEmail = localStorage.getItem("email")
 
     useEffect(() => {
         (async () => {
             try {
-                const resp = await httpClient.get("/current_user");
+                const resp = await httpClient.get("/auth/current_user"+this.localEmail);
                 setUser(resp.data);
             } catch (error) {
                 console.log("Not authenticated");
@@ -22,14 +23,7 @@ const Navbar = () => {
       <div>
           {user != null ? (
           <div>
-          {/*<h1>Home page</h1>*/}
-          {/*    <p>Navigation</p>*/}
-          {/*    <Link to="calendar">Calendar</Link><br/>*/}
-          {/*    <Link to="account">Account</Link><br/>*/}
-          {/*    <Link to="ratings">Ratings</Link><br/>*/}
-          {/*    <Link to="courses">Courses</Link><br/>*/}
-          {/*    <Link to="Notifications">Notifications</Link><br/>*/}
-          {/*    <Link to="Friends">Friends</Link>*/}
+         
           </div>):(
           <div className="initialWrapper">
               <div className="initialForm">

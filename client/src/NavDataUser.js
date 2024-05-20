@@ -14,6 +14,14 @@ export const NavDataUser = [
         cName: 'nav-text'
     },
     {
+        title: 'Exam Calendar',
+        path: '/examcalendar',
+        // icon: <Ci.CiCalendar />,
+        icon: <Im.ImPencil />,
+        cName: 'nav-text'
+    },
+   
+    {
         title: 'Enseignement',
         path: '/courses',
         // icon: <Tfi.TfiNotepad />,

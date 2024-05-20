@@ -36,86 +36,11 @@ function NotifDropdown() {
       };
     }, []);
   
-    //Grabs time of class and associated message from database
-    // fetch('/upcoming_notification')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     const eventTime = data.time;
-    //     const eventMessage = data.message;
-    //     console.log(eventTime, eventMessage);
-    //
-    //     if (getCurrentTime() === eventTime) {
-    //       toast.info(eventMessage, { autoClose: 5000 });
-    //     }
-    //   });
-  
-    // fetch('/friend_request')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //       const rqTime = data.time;
-    //       const rqStatus = data.status;
-    //       console.log(rqTime, rqStatus);
-    //
-    //       if (currentTime === rqTime) {
-    //           toast.info(rqStatus, { autoClose: 5000 });
-    //       }
-    //   });
    
-    
-  
-  //   const showToast = () => {
-  //       toast('Hello World', {
-  //           data: {
-  //               title: 'Hello World Again',
-  //               text: 'We are here again with another article'
-  //           }
-  //       });
-  //   };
-  //   const showSuccessToast = () => {
-  //       toast.success('Hello World', {
-  //           data: {
-  //               title: 'Success toast',
-  //               text: 'This is a success message'
-  //           }
-  //       });
-  //   };
-  //   const showErrorToast = () => {
-  //       toast.error('Hello World', {
-  //           data: {
-  //               title: 'Error toast',
-  //               text: 'This is an error message'
-  //           }
-  //       });
-  // };
-
+   
 
     useEffect(() => {
-      fetch("/current_user")
-        .then((response) => response.json())
-        .then((data) => {
-          setUser(data);
-          const userEmail = data.email;
-          fetch(`/request_view/${data.id}`)
-            .then((response) => response.json())
-            .then((data) => {
-              setUserReqs(data);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          fetch(`/user_classes/${userEmail}`)
-            .then(response => response.json())
-            .then(data => {
-              const eventTime = data.startTime;
-              console.log("++++++")
-              console.log(data);
-              const eventMessage = data.className;
-              console.log(data.startTime, data.endTime);
-            if (getCurrentTime() === data.startTime) {
-              toast.info(eventMessage, { autoClose: 5000 });
-            }
-          });
-        });
+   
     }, []);
 
 

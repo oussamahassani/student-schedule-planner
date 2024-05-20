@@ -6,8 +6,7 @@ use App\Http\Controllers\EmploiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\EnseignantController;
-
-
+use App\Http\Controllers\ExamController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,6 +36,10 @@ Route::get('/emplois', [EmploiController::class, 'getAllData']);
 
 // Fetch emplois by filiere
 Route::get('/emplois/byStudent/{filiere}', [EmploiController::class, 'getByFiliere']);
+
+Route::get('/exam/byStudent/{filiere}', [ExamController::class, 'getByFiliere']);
+Route::get('/exam/byensignent/{enseignemnt}', [ExamController::class, 'getByEnseignemnt']);
+
 
 Route::get('/emplois/byensignent/{enseignemnt}', [EmploiController::class, 'getByEnseignemnt']);
 // Fetch emplois by filiere and type

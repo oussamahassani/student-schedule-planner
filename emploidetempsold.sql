@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 20 mai 2024 à 00:12
+-- Généré le : mer. 08 mai 2024 à 18:34
 -- Version du serveur : 5.7.36
 -- Version de PHP : 8.0.13
 
@@ -41,7 +41,6 @@ CREATE TABLE IF NOT EXISTS `emploi_du_temps` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `filiere` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `filiere_id` int(11) DEFAULT NULL,
-  `groups` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_emploi`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -49,50 +48,14 @@ CREATE TABLE IF NOT EXISTS `emploi_du_temps` (
 -- Déchargement des données de la table `emploi_du_temps`
 --
 
-INSERT INTO `emploi_du_temps` (`id_emploi`, `jour`, `hdebut`, `hfin`, `type`, `module`, `salle`, `enseignant`, `created_at`, `updated_at`, `filiere`, `filiere_id`, `groups`) VALUES
-(1, '1', '08:00', '10:00', 'TD', 'Architecture des microprocesseurs et microcontroleurs', 'S17', 'Abassi Aziz', '2024-04-22 22:17:04', '2024-04-22 22:17:04', 'licence resaux', 1, ''),
-(2, '2', '08:00', '10:30', 'CT', 'Algèbre 2', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1, ''),
-(3, '3', '09:00', '13:00', 'CT', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1, ''),
-(4, '4', '10:00', '11:30', 'CT', 'Apprentissage profond', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1, ''),
-(5, '4', '14:30', '16:00', 'CT', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1, ''),
-(6, '5', '08:00', '09:30', 'CT', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1, ''),
-(7, '5', '08:00', '09:30', 'CT', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'genie logiciel', 2, '');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `emploi_du_temps_exams`
---
-
-DROP TABLE IF EXISTS `emploi_du_temps_exams`;
-CREATE TABLE IF NOT EXISTS `emploi_du_temps_exams` (
-  `id_emploi_exam` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `jour` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hdebut` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hfin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `module` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `salle` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `enseignant` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `filiere` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `filiere_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_emploi_exam`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `emploi_du_temps_exams`
---
-
-INSERT INTO `emploi_du_temps_exams` (`id_emploi_exam`, `jour`, `hdebut`, `hfin`, `module`, `salle`, `enseignant`, `created_at`, `updated_at`, `filiere`, `filiere_id`) VALUES
-(1, '1', '08:00', '10:00', 'Architecture des microprocesseurs et microcontroleurs', 'S17', 'Abassi Aziz', '2024-04-22 22:17:04', '2024-04-22 22:17:04', 'licence resaux', 1),
-(2, '2', '08:00', '10:30', 'Algèbre 2', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 2),
-(3, '3', '09:00', '13:00', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1),
-(4, '4', '10:00', '11:30', 'Apprentissage profond', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 2),
-(5, '4', '14:30', '16:00', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1),
-(7, '5', '08:00', '09:30', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'genie logiciel', 2),
-(8, '3', '08:00', '10:00', 'Architecture évoluées des processeurs', 'S19', 'Ashour Naji', '2024-05-19 21:38:36', '2024-05-19 21:38:36', 'genie logiciel', NULL),
-(9, '5', '14:00', '15:00', 'Architecture des microprocesseurs et microcontroleurs', 'S18', 'Arfaoui Mohamedi', '2024-05-19 21:39:07', '2024-05-19 21:39:07', 'genie logiciel', NULL);
+INSERT INTO `emploi_du_temps` (`id_emploi`, `jour`, `hdebut`, `hfin`, `type`, `module`, `salle`, `enseignant`, `created_at`, `updated_at`, `filiere`, `filiere_id`) VALUES
+(1, '1', '08:00', '10:00', 'TD', 'Architecture des microprocesseurs et microcontroleurs', 'S17', 'Abassi Aziz', '2024-04-22 22:17:04', '2024-04-22 22:17:04', 'licence resaux', 1),
+(2, '2', '08:00', '10:30', 'CT', 'Algèbre 2', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1),
+(3, '3', '09:00', '13:00', 'CT', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1),
+(4, '4', '10:00', '11:30', 'CT', 'Apprentissage profond', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1),
+(5, '4', '14:30', '16:00', 'CT', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1),
+(6, '5', '08:00', '09:30', 'CT', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'licence resaux', 1),
+(7, '5', '08:00', '09:30', 'CT', 'Architecture des ordinateurs', 'S2', 'Aoun Yacoubi', '2024-04-22 22:17:37', '2024-04-22 22:17:37', 'genie logiciel', 2);
 
 -- --------------------------------------------------------
 
@@ -747,21 +710,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `id_filiere` int(11) DEFAULT NULL,
-  `groups` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `admin`, `id_filiere`, `groups`) VALUES
-(1, 'oussama', 'admin@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-22 21:21:08', '2024-04-22 21:21:08', 1, 1, '1'),
-(2, 'sami', 'stud1@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-23 21:22:43', '2024-04-23 21:22:43', 0, 1, '2'),
-(3, 'sami', 'stud2@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-23 21:27:28', '2024-04-23 21:27:28', 0, 1, '1'),
-(4, 'test', 'ex1@gmail.com', NULL, '$2y$10$ldv5KwOy/w5tXbULJe.GcuL1VpRKh5u4eEs6CRSi0Tztm8W1pouMO', NULL, '2024-04-30 17:45:08', '2024-04-30 17:45:08', 0, 2, '2'),
-(7, 'azerty', 'azertt@gmail.com', NULL, '$2y$10$1sR496IYainqg.6S1HSKA.C0kX8FbDSzGrmBCQHikIsoazuUc9vfe', NULL, '2024-05-19 22:36:45', '2024-05-19 22:36:45', 0, 1, 'group2');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `admin`, `id_filiere`) VALUES
+(1, 'oussama', 'admin@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-22 21:21:08', '2024-04-22 21:21:08', 1, 1),
+(2, 'sami', 'stud1@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-23 21:22:43', '2024-04-23 21:22:43', 0, 1),
+(3, 'sami', 'stud2@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-23 21:27:28', '2024-04-23 21:27:28', 0, 1),
+(4, 'test', 'ex1@gmail.com', NULL, '$2y$10$ldv5KwOy/w5tXbULJe.GcuL1VpRKh5u4eEs6CRSi0Tztm8W1pouMO', NULL, '2024-04-30 17:45:08', '2024-04-30 17:45:08', 0, 2);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

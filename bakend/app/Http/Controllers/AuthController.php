@@ -49,7 +49,7 @@ class AuthController extends Controller
         } else {
             return response()->json(['error' => 'Invalid user type'], 422);
         }
-        return $this->createNewToken($token, $request->user_type);
+        return $this->createNewToken($token, $request->user_type , $request->email) ;
     }
 
     /**
@@ -63,6 +63,7 @@ class AuthController extends Controller
             'id_filiere' => 'required',
             'email' => 'required|string|email|max:30|unique:users',
             'password' => 'required|string|confirmed|min:6',
+            'groups' => 'required',
         ]);
 
         if($validator->fails()){
@@ -117,10 +118,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function createNewToken($token , $role){
+    protected function createNewToken($token , $role , $email){
         if($role == 'user'){
             $user = User::join('filieres', 'users.id_filiere', '=', 'filieres.id_filiere')
             ->select('users.*', 'filieres.*')
+            ->where('users.email', $email)
             ->first(); 
     
         }

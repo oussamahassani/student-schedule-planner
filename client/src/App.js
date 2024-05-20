@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import {Routes, Route } from "react-router-dom"
 import "./App.css";
 import AppCal from "./pages/calendar/AppCal";
+import AppExamCal from "./pages/examCalander/AppCal";
+
 import Navbar from "./Navbar";
 import Notif from "./pages/Notifications/Notif";
 import Login from "./pages/login/Login";
@@ -15,6 +17,7 @@ import AppAccount from "./pages/account/AppAccount";
 import AppPassword from "./pages/account/AppPassword";
 import AppProfilePic from "./pages/account/AppProfilePic";
 import AppDelete from "./pages/account/AppDelete";
+import ExamCalByEnsigenement from './pages/ExamCalByEnsigenement/AppExamByEnsei'
 // import type {User} from "./types";
 
 
@@ -54,6 +57,9 @@ function App() {
                     <Route path="/UploadProfilePic" element={<AppProfilePic />} />
                     <Route path= "/DeleteAccount" element={<AppDelete />} />
                     <Route path="/calendar" element={<AppCal />} />
+                    <Route path="/examcalendar" element={<AppExamCal />} />
+                    <Route path="/exambyEnseignement" element={<ExamCalByEnsigenement />} />
+                    
                     <Route path="/courses" element={<AppCourse />} />
                     <Route path= "/Notifications" element={<Notif />} />
                     <Route path="/Friends" element={<AppFriends />} />

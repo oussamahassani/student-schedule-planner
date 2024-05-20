@@ -11,6 +11,9 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\NiveauController;
 use App\Http\Controllers\SeanceController;
+use App\Http\Controllers\ExamController;
+
+
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EnseignantController;
@@ -46,6 +49,8 @@ Route::resource('filieres', FiliereController::class);
 Route::resource('enseignants', EnseignantController::class);
 //Route emploi
 Route::resource('seances', SeanceController::class);
+Route::resource('exam', ExamController::class);
+
 //Route salle
 Route::resource('salles', SalleController::class);
 //Route groupe

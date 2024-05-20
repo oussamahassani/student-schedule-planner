@@ -8,6 +8,7 @@ import logo3 from '../../public/logo3.png'
  * @returns {JSX.Element} Returns the JSX element with registration form.
  */
 const Sign_Up = ()=> {
+  let Listgroups = ["group1","group2"]
   const [filiere, setFiliere] = useState([]);
   /**
    * State to store user's email.
@@ -37,6 +38,7 @@ const Sign_Up = ()=> {
    * State to store user's last name.
    */
   const [lName, setLName] = useState("");
+  const [groups, setGroup] = useState("");
 
   const [error, setError] =useState("");
 
@@ -55,12 +57,12 @@ const Sign_Up = ()=> {
         password_confirmation:password,
         name:fName,
         lName,
+        groups,
         id_filiere:selectedfiliere
       });
 
-      console.log(resp.data)
 
-      window.location.href = "/calendar";
+      window.location.href = "/login";
     } catch (err) {
       setError(err.response.data.error);
     }
@@ -77,8 +79,10 @@ const Sign_Up = ()=> {
             <div>
               <p className="initialP">Email</p>
               <input
-                type="text"
+                type="email"
                 value={email}
+                className='form-control'
+                required
                 onChange={(e) => setEmail(e.target.value)}
                 id=""
               />
@@ -88,6 +92,8 @@ const Sign_Up = ()=> {
               <input
                 type="password"
                 value={password}
+                className='form-control'
+                required
                 onChange={(e) => setPassword(e.target.value)}
                 id=""
               />
@@ -97,6 +103,8 @@ const Sign_Up = ()=> {
               <input
                 type="text"
                 value={fName}
+                className='form-control'
+                required
                 onChange={(e) => setFName(e.target.value)}
                 id=""
               />
@@ -106,6 +114,8 @@ const Sign_Up = ()=> {
               <input
                 type="text"
                 value={lName}
+                className='form-control'
+                required
                 onChange={(e) => setLName(e.target.value)}
                 id=""
               />
@@ -114,9 +124,27 @@ const Sign_Up = ()=> {
               <p className="initialP">Classe</p>
               <select
                 value={selectedfiliere}
+                className='form-control'
+                required
                 onChange={(e) => setFiliereSelected(e.target.value)}
                 id=""
-              >{filiere.map((el,index) => {return(<option key={index} value={el.id_filiere}>{el.cycle +"-"+ el.nomfil}</option>)}
+              >
+                <option>selectioner votre class</option>
+                {filiere.map((el,index) => {return(<option key={index} value={el.id_filiere}>{el.cycle +"-"+ el.nomfil}</option>)}
+  )}
+                </select>
+            </div>
+            <div>
+              <p className="initialP">groups</p>
+              <select
+                value={groups}
+                className='form-control'
+                required
+                onChange={(e) => setGroup(e.target.value)}
+                id=""
+              >
+                <option>selectioner votre group</option>
+                {Listgroups.map((el,index) => {return(<option key={index} value={el}>{el}</option>)}
   )}
                 </select>
             </div>

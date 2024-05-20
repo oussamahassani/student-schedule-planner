@@ -112,7 +112,9 @@ const Login = () => {
               Submit
             </button>
           </form>
+          <p>Vous n'avez pas de compte : <a href="/sign-up">Cliquer ici</a></p>
         </div>
+        
       </div>
     </div>
   );
