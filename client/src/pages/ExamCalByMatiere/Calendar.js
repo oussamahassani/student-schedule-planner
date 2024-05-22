@@ -16,9 +16,11 @@ class Calendar extends Component {
     componentDidUpdate(prevProps) {
         console.log(this.props.nameMatiere)
         console.log(prevProps)
+        this.addEventsToCalendar(this.props.nameMatiere)
+        console.log(this.props.nameMatiere !== prevProps.nameMatiere)
         if (this.props.nameMatiere !== prevProps.nameMatiere) {
           console.log('codeenseignant changed:', this.props.nameMatiere  );
-          this.addEventsToCalendar(this.props.nameMatiere)
+         
         }
       }
     /**
