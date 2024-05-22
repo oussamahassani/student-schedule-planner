@@ -140,7 +140,14 @@ class EmploiController extends Controller
                      ->where('type', $type)
                      ->get();
     }
-
+    public function getByFiliereAndTypeAndGroup($filiere, $type , $group){
+        return EmploiDuTemps::where('filiere_id', $filiere)
+                     ->where('type', $type)
+                     ->when($groupe !== null || $groupe !=='' , function ($query) use ($groupe) {
+                        return $query->where('groupe', $groupe);
+                    })
+                     ->get();
+    }
 
     public function getByEnseignemnt($enseignemnt){
         return EmploiDuTemps::where('enseignant', $enseignemnt)->get();

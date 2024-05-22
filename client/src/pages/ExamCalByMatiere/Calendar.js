@@ -1,43 +1,35 @@
-import './styles.css'
-import React, { Component   } from "react"
+import React, { Component } from "react"
 import { Link } from "react-router-dom";
 import { renderToString } from 'react-dom/server';
 import * as Cg from 'react-icons/cg';
-import generatePDF from 'react-to-pdf';
 
 const daysOfWeek = ['1', '2', '3', '4', '5', '6', '7'];
 /**
  * @return the user's calendar with their events
  */
-class Calendar extends Component {
 
-localEmail = localStorage.getItem("email")
-role = localStorage.getItem("role")
+class Calendar extends Component {
     constructor(props) {
         super(props);
-        this.componentRef = React.createRef();
-
         this.state = { events: [], selectedEvent: null, descBox: null , recherche:null,SavedData:[] };
     }
-
+    componentDidUpdate(prevProps) {
+        console.log(this.props.nameMatiere)
+        console.log(prevProps)
+        if (this.props.nameMatiere !== prevProps.nameMatiere) {
+          console.log('codeenseignant changed:', this.props.nameMatiere  );
+          this.addEventsToCalendar(this.props.nameMatiere)
+        }
+      }
     /**
      * Displays user's courses on the calendar
     */
-    addEventsToCalendar = () => {
-        if(this.role =="user"){
-        fetch("/auth/current_user/"+this.localEmail)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("User identity error");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                const userEmail = data.user.id_filiere;
-                fetch(`/emplois/byStudent/${userEmail}`)
+    addEventsToCalendar = (nameensigen) => {
+      
+                fetch(`/exam/bymatiere/${nameensigen}`)
                     .then((response) => {
                         if (!response.ok) {
-                            throw new Error(`Unable to get  for ${userEmail}`);
+                            throw new Error(`Unable to get courses for ${nameensigen}`);
                         }
                         return response.json();
                     })
@@ -50,10 +42,9 @@ role = localStorage.getItem("role")
                             const day = c.jour;
                             const startTime = c.hdebut;
                             const endTime = c.hfin;
-                            const type = c.type;
-                            const groups = c.groups;
+                      
                             const events = this.state.events.slice();
-                            updatedEvents.push({ description, day, startTime, endTime, classNum, subject,type,groups });
+                            updatedEvents.push({  day, startTime, endTime, classNum, subject });
                             this.setState({ events });
                            
                         });
@@ -63,92 +54,20 @@ role = localStorage.getItem("role")
                     .catch((error) => {
                         console.error(error);
                     });
-            });
-        } else {
-            fetch("/byenseignant/"+this.localEmail)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("User identity error");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data,data.codeenseignant)
-                const codeenseignant = data.codeenseignant;
-                fetch(`/emplois/byensignent/${codeenseignant}`)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`Unable to get for ${codeenseignant}`);
-                        }
-                        return response.json();
-                    })
-                    .then((classes) => {
-                        const updatedEvents = [...this.state.events];
-                        classes.forEach((c) => {
-                            const classNum = c.salle;
-                            const subject = c.module;
-                            const description = c.enseignant;
-                            const day = c.jour;
-                            const startTime = c.hdebut;
-                            const endTime = c.hfin;
-                            const type = c.type;
-                            const groups = c.groups;
-                            const events = this.state.events.slice();
-                            updatedEvents.push({ description, day, startTime, endTime, classNum, subject,type,groups });
-                            this.setState({ events });
-                           
-                        });
-                        this.setState({ events: updatedEvents });
-                        this.setState({SavedData:updatedEvents})
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            });
-        }
+         
     };
 
     /**
      * Calls addEvents to calendar at runtime
     */
     componentDidMount() {
-        this.addEventsToCalendar();
+        let codeenseignant = this.props.nameensigent
+        this.addEventsToCalendar(codeenseignant);
     }
     onchangeFilter(event){
-        let mongroup = localStorage.getItem("groups")
-        let value = event.target.value ;
-        console.log(value)
-   this.setState({recherche :value })
-   if(value != "" && value != "TP"){
-   let filterData = this.state.SavedData.filter(el => el.type ==value)
-   this.setState({events : filterData})
-   }
-   else if(value == "TP"){
-    let filterData = this.state.SavedData.filter(el => el.type ==value && el.groups ==mongroup);
-    this.setState({events : filterData})
-   }
-   else {
-   
-    this.setState({events : this.state.SavedData})
-   }
+ 
     }
-    onchangeFilterGroup(event){
-        let mongroup = localStorage.getItem("groups")
-        let value = event.target.value ;
-        if(value != ""){
-            let filterData = this.state.SavedData.filter(el => el.type !="TP");
-            let tpgroup = this.state.SavedData.filter(el => el.type =="TP" && el.groups ==value);
-            console.log(tpgroup)
-          let finaltab = [...filterData,...tpgroup]
-          this.setState({events : finaltab})
-        }
-        else{
-            this.setState({events : this.state.SavedData})
 
-        }
-      
-
-    }
     /**
      * Creates a description box for the selected event
      * @param event - user selected event
@@ -159,10 +78,7 @@ role = localStorage.getItem("role")
 
         const { selectedEvent, descBox } = this.state;
         if (selectedEvent === event) {
-            if(descBox && descBox != null){
-                descBox.remove();
-            }
-      
+            
             this.setState({ selectedEvent: null, descBox: null });
             return;
         }
@@ -197,7 +113,7 @@ role = localStorage.getItem("role")
         descText.className = 'desc-text';
         const profText = document.createElement('div');
         
-        profText.innerHTML = event.description + ' - ' + event.classNum;
+        profText.innerHTML =  event.classNum;
         profText.className = 'profText';
         const closeButton = document.createElement('div');
         closeButton.innerHTML = renderToString(<Cg.CgClose />);
@@ -220,7 +136,10 @@ role = localStorage.getItem("role")
      * @param descBox - description box for selected event
      */
     handleCloseBoxClick = (e, descBox) => {
-        descBox.remove();
+       
+        if(descBox){
+            descBox.remove();
+        }
         this.setState({ selectedEvent: null, descBox: null });
     };
 
@@ -230,41 +149,24 @@ role = localStorage.getItem("role")
      */
     renderEvents = (dayOfWeek) => {
         return this.state.events.map((event) => {
-            console.log(event)
-            console.log(dayOfWeek)
+         
             if (event.day.includes(dayOfWeek)) {
                 const startTime = event.startTime.split(":");
                 let startHour, startMinute;
                 startHour = startTime[0]
                 startMinute=startTime[1]
-console.log(startTime)
-               /* if (startTime >= 1000) { // 4 digit input
-                    startHour = Math.floor(startTime / 100);
-                    console.log(startHour)
-                    startMinute = startTime % 100;
-                } else { // 3 digit input
-                    startHour = Math.floor(startTime / 100);
-                    startMinute = startTime % 100;
-                }
-*/
+
                 const endTime = event.endTime.split(":");
                 let endHour, endMinute;
                 endHour=endTime[0]
                 endMinute = endTime[1]
-              /*  if (endTime >= 1000) {
-                    endHour = Math.floor(endTime / 100);
-                    endMinute = endTime % 100;
-                } else {
-                    endHour = Math.floor(endTime / 100);
-                    endMinute = endTime % 100;
-                }*/
+            
 
                 const duration = (endHour - startHour) * 60 + (endMinute - startMinute);
 
 
                 if (startHour >= 7 && endHour <= 21 && startHour < endHour) {
-                    console.log(startHour,startMinute)
-                    console.log(duration,endHour)
+          
 
                     return (
                         <li
@@ -276,10 +178,9 @@ console.log(startTime)
                             }}
                             onClick={(e) => this.handleEventClick({ ...event, target: e.currentTarget }, dayOfWeek)}
                         >
-                            {/*{event.eventName}*/}
-                            <div className="eventNameTime">
-                                {event.subject} {event.classNum} ({event.type =="CT" ? "Cours" :event.type })
-                                <span>{event.groups?event.groups :""}</span>
+                           
+                           <div className="eventNameTime">
+                                {event.subject} {event.classNum} 
                             </div>
                         </li>
                     );
@@ -292,27 +193,8 @@ console.log(startTime)
     render() {
         return (
             <div className="wrapper1">
-      {this.role== "user" && <div>
-        <label>filter emploi </label>
-        <select name="filter" onChange={(event) =>this.onchangeFilter(event)}>
-            <option value={""}>all cours</option>
-            <option value={"TD"}>TD Cours</option>
-            <option value={"TP"}>TP Cours</option>
-            <option value={"CT"}>Cours</option>
 
-        </select>
-
-        <select name="group" onChange={(event) =>this.onchangeFilterGroup(event)}>
-            <option value={""}>all cours</option>
-            <option value={"group1"}>Group 1</option>
-            <option value={"group2"}>group 2</option>
-       
-
-        </select>
-       </div> }
-       <button className="btn btn-primary" onClick={() => generatePDF(this.componentRef, {filename: 'page.pdf'})}>Download PDF</button>
-
-                <div className="calWrapper" ref={this.componentRef}>
+                <div className="calWrapper">
                     <div className="time-slot">
                         <div className="day-header"></div>
                         <ul>

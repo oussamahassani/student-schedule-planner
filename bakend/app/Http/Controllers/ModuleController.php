@@ -14,7 +14,7 @@ class ModuleController extends Controller
      */
     public function __construct()
     {
-        return $this->middleware('auth');
+      //  return $this->middleware('auth');
     }
 
 
@@ -120,5 +120,10 @@ class ModuleController extends Controller
         $module->delete();
         return redirect()->route('module.index')
         ->with('success','Module has been deleted successfully');
+    }
+
+    public function getAllData()
+    {
+        return Module::all();
     }
 }

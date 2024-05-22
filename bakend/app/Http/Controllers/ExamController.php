@@ -163,4 +163,9 @@ class ExamController extends Controller
     public function getByEnseignemnt($enseignemnt){
         return EmploiDuTempsExam::where('enseignant', $enseignemnt)->get();
     }
+    public function getByMatiere($matiere){
+        return EmploiDuTempsExam::where('module', $matiere)->get();
+    }
+
+    
 }

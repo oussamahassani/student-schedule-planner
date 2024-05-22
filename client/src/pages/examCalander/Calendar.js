@@ -260,7 +260,7 @@ console.log(startTime)
     render() {
         return (
             <div className="wrapper1">
- <h1>Liste des Examan</h1>
+ <h1>{this.role == "enseignement"  ? "liste des surveillance"  :" Liste des Examan"}</h1>
        <button className="btn btn-primary" onClick={() => generatePDF(this.componentRef, {filename: 'page.pdf'})}>Download PDF</button>
 
                 <div className="calWrapper" ref={this.componentRef}>

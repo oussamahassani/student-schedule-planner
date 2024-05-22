@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\ModuleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,17 +34,20 @@ Route::group([
 });
 // Fetch all emplois
 Route::get('/emplois', [EmploiController::class, 'getAllData']);
-
+Route::get('/matieres', [ModuleController::class, 'getAllData']);
 // Fetch emplois by filiere
 Route::get('/emplois/byStudent/{filiere}', [EmploiController::class, 'getByFiliere']);
 
 Route::get('/exam/byStudent/{filiere}', [ExamController::class, 'getByFiliere']);
 Route::get('/exam/byensignent/{enseignemnt}', [ExamController::class, 'getByEnseignemnt']);
+Route::get('exam/bymatiere/{matiere}', [ExamController::class, 'getByMatiere']);
 
 
 Route::get('/emplois/byensignent/{enseignemnt}', [EmploiController::class, 'getByEnseignemnt']);
 // Fetch emplois by filiere and type
 Route::get('/emplois/byFilter/{filiere}/{type}', [EmploiController::class, 'getByFiliereAndType']);
+Route::get('/emplois/byFilter/{filiere}/{type}/{group}', [EmploiController::class, 'getByFiliereAndTypeAndGroup']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -54,3 +58,4 @@ Route::get('/enseignant', [EnseignantController::class, 'getAllData']);
 // Fetch emplois by filiere
 Route::get('/enseignant/{name}', [EnseignantController::class, 'getByName']);
 Route::get('/byenseignant/{email}', [EnseignantController::class, 'getByEmail']);
+

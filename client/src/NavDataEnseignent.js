@@ -14,19 +14,27 @@ export const NavDataEnseignent = [
         cName: 'nav-text'
     },
     {
-        title: 'Exam Calendar',
+        title: 'Liste des surveillance',
         path: '/examcalendar',
         // icon: <Ci.CiCalendar />,
         icon: <Im.ImPencil />,
         cName: 'nav-text'
     },
     {
-        title: 'Exam Enseignement',
+        title: 'exman matiere',
+        path: '/exambymatiere',
+        // icon: <Ci.CiCalendar />,
+        icon: <Im.ImMan />,
+        cName: 'nav-text'
+    },
+    {
+        title: 'surveillance  by enseignement',
         path: '/exambyEnseignement',
         // icon: <Ci.CiCalendar />,
         icon: <Im.ImMan />,
         cName: 'nav-text'
     },
+    
     {
         title: 'Emploi enseignement',
         path: '/courses',

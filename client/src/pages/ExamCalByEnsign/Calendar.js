@@ -14,12 +14,11 @@ class Calendar extends Component {
         this.state = { events: [], selectedEvent: null, descBox: null , recherche:null,SavedData:[] };
     }
     componentDidUpdate(prevProps) {
-        console.log(this.props.nameensigent)
-         console.log(prevProps.nameensigent)
-        if (this.props.nameensigent !== prevProps.nameensigent) {
-          console.log('codeenseignant changed:', this.props.nameensigent  );
-          console.log("prevent propos" , prevProps.codeenseignant)
-          this.addEventsToCalendar(this.props.nameensigent)
+        console.log(this.props.nameMatiere)
+        console.log(prevProps)
+        if (this.props.nameMatiere !== prevProps.nameMatiere) {
+          console.log('codeenseignant changed:', this.props.nameMatiere  );
+          this.addEventsToCalendar(this.props.nameMatiere)
         }
       }
     /**
@@ -27,7 +26,7 @@ class Calendar extends Component {
     */
     addEventsToCalendar = (nameensigen) => {
       
-                fetch(`/exam/byensignent/${nameensigen}`)
+                fetch(`/exam/bymatiere/${nameensigen}`)
                     .then((response) => {
                         if (!response.ok) {
                             throw new Error(`Unable to get courses for ${nameensigen}`);

@@ -66,14 +66,14 @@ useEffect(() => {
   {
     return null;
   }
-return <Calendar nameensigent={codeenseignant}/>
+return <Calendar nameMatiere={codeenseignant}/>
  }
 
 
 
   return (
     <div className="course-wrapper">
-       <h1>Liste des Examan par Enseignant</h1>
+       <h1>Liste des surveillance  par enseignement</h1>
       <div className="CourseSearch">
         <div className="searchContainer">
           <div className="searchInputs">
@@ -86,7 +86,7 @@ return <Calendar nameensigent={codeenseignant}/>
             />
           </div>
           <div className="dataResult">
-            {data
+          {data
               .filter((val) => {
                 if (searchTerm === "") {
                   return val; }
@@ -103,7 +103,7 @@ return <Calendar nameensigent={codeenseignant}/>
                     key={key}
                     onClick={() => handleCourseClick(val)}
                   >
-                    <p>{val.codeenseignant}: {val.nom} {val.prenoms} {val.specialite}</p>
+                   <p>{val.codeenseignant}: {val.nom} {val.prenoms} {val.specialite}</p>
                   </div>
                 );
               })}

@@ -17,7 +17,9 @@ import AppAccount from "./pages/account/AppAccount";
 import AppPassword from "./pages/account/AppPassword";
 import AppProfilePic from "./pages/account/AppProfilePic";
 import AppDelete from "./pages/account/AppDelete";
-import ExamCalByEnsigenement from './pages/ExamCalByEnsigenement/AppExamByEnsei'
+import ExamCalByMatiere from './pages/ExamCalByMatiere/AppExamByEnsei'
+import ExamCalByEnsigenement from './pages/ExamCalByEnsign/AppExamByEnsei'
+
 // import type {User} from "./types";
 
 
@@ -59,6 +61,7 @@ function App() {
                     <Route path="/calendar" element={<AppCal />} />
                     <Route path="/examcalendar" element={<AppExamCal />} />
                     <Route path="/exambyEnseignement" element={<ExamCalByEnsigenement />} />
+                    <Route path="/exambymatiere" element={<ExamCalByMatiere />} />
                     
                     <Route path="/courses" element={<AppCourse />} />
                     <Route path= "/Notifications" element={<Notif />} />
