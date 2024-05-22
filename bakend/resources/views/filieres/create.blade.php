@@ -25,6 +25,16 @@
         @endif
         <form action="{{ route('filieres.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <div class=" form-group text-dark">
+                <label for="hdebut"><b>Filière Group</b> </label>
+                <select name="filieres_group_id" id="filieres_group_id" class="form-control ">
+        <option value=""> -Select- </option>
+                @foreach ($filiereGroup as $filiereGroup)
+               
+                <option value="{{   $filiereGroup->id }}">{{$filiereGroup -> group_name }}</option>
+                @endforeach
+            </select>
+            </div>
         <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">

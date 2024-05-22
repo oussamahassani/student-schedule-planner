@@ -1,5 +1,5 @@
 import './friends.css'
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import FriendCal from "./friendCal";
 import httpClient from "../../httpClient";
@@ -16,42 +16,42 @@ function Friends() {
   const [role, setrole] = useState(localStorage.getItem("role"))
   const [filiere, setFiliere] = useState([]);
 
-    useEffect(() => {
-      let localEmail = localStorage.getItem("email");
-      let role = localStorage.getItem("role")
+  useEffect(() => {
+    let localEmail = localStorage.getItem("email");
+    let role = localStorage.getItem("role")
 
-if(role == 'user'){
-      fetch("/auth/current_user/"+localEmail)
+    if (role == 'user') {
+      fetch("/auth/current_user/" + localEmail)
         .then((response) => response.json())
         .then((data) => {
           setCurrentUser(data);
-          if(data.user){
-          fetch(`/auth/get/all_user/${data.user.id_filiere}`)
-            .then((response) => response.json())
-            .then((data) => {
-              setFriends(data.user);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          if (data.user) {
+            fetch(`/filiereByGroupId/${data.user.filieres_group_id}`)
+              .then((response) => response.json())
+              .then((data) => {
+                setFriends(data);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           }
         })
         .catch((error) => {
           console.log(error);
         });
-      }
-      else {
-        httpClient.get("/filiere")
+    }
+    else {
+      httpClient.get("/filiere")
         .then(res => setFiliere(res.data))
-         .catch(err => console.log(err))
-      }
+        .catch(err => console.log(err))
+    }
 
     return () => {
 
     };
   }, []);
 
-  
+
   /**
    * Updates the selected user
    * @param friend - The selected friend.
@@ -59,7 +59,7 @@ if(role == 'user'){
   const handleUserClick = (friend) => {
     console.log("=======");
     console.log(friends);
-    setSelectedFriend(friend.id);
+    setSelectedFriend(friend.id_filiere);
     setFriendEmail(friend.id_filiere);
     // setFriendId(friend.friendid);
   }
@@ -74,7 +74,7 @@ if(role == 'user'){
 
 
 
-  
+
 
 
   return (
@@ -83,62 +83,62 @@ if(role == 'user'){
         <div className="sideContainer">
           <div className="friendsHeader">
             <div className="sideHeaders" onClick={handleAllFriendsClick}>
-              <h3>tous les infos</h3>
+              <h3>tous les infos des filiere</h3>
             </div>
-           
+
           </div>
           <div className="subSideContainer">
-            
-              <div className="allFriendsContainer">
-                <div className="scrollWrapper">
-                  <div className="subScroll">
-                    <div className="scrollBoxF">
-                      {role  == "user" ? (friends.length > 0 ? (
-                        friends.map((friend) => (
-                          <div
-                              className={`friend ${friend.friendid === selectedFriend ? 'selected' : ''}`}
-                              key={friend.friendid}
-                              onClick={() => handleUserClick(friend)}
-                          >
-                            <div className="subFriend">
-                              <p>{friend.name} {friend.email }</p>
-                              <div className='removeFriend' onClick={() => 
-                                handleUserClick(friend)
-                              }>
-                                <Ai.AiOutlineUserDelete  data-testid="delete-icon" /></div>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div>No friends</div>
-                      )):""}
-                    </div>
-                    <div className="scrollBoxF">
-                      {role  == "enseignement" ? ( filiere.length > 0 ? (
-                        filiere.map((friend) => (
-                          <div
-                              key={friend.id_filiere }
-                              onClick={() => handleUserClick(friend)}
-                          >
-                            <div className="subFriend">
-                              <p>{friend.cycle} {friend.nomfil }</p>
-                              <div className='removeFriend' onClick={() => 
-                                handleUserClick(friend)
-                              }>
-                                <Ai.AiOutlineUserDelete  data-testid="delete-icon" /></div>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div>No filiere</div>
-                      )) :""}
-                    </div>
 
+            <div className="allFriendsContainer">
+              <div className="scrollWrapper">
+                <div className="subScroll">
+                  <div className="scrollBoxF">
+                    {role == "user" ? (friends.length > 0 ? (
+                      friends.map((friend) => (
+                        <div
+                          className={`friend ${friend.id_filiere === selectedFriend ? 'selected' : ''}`}
+                          key={friend.id_filiere}
+                          onClick={() => handleUserClick(friend)}
+                        >
+                          <div className="subFriend">
+                            <p> {friend.nomfil}</p>
+                            <div className='removeFriend' onClick={() =>
+                              handleUserClick(friend)
+                            }>
+                              <Ai.AiFillCarryOut data-testid="delete-icon" /></div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div>No filiere</div>
+                    )) : ""}
                   </div>
+                  <div className="scrollBoxF">
+                    {role == "enseignement" ? (filiere.length > 0 ? (
+                      filiere.map((friend) => (
+                        <div
+                          key={friend.id_filiere}
+                          onClick={() => handleUserClick(friend)}
+                        >
+                          <div className="subFriend">
+                            <p>{friend.cycle} {friend.nomfil}</p>
+                            <div className='removeFriend' onClick={() =>
+                              handleUserClick(friend)
+                            }>
+                              <Ai.AiFillCarryOut data-testid="delete-icon" /></div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div>No filiere</div>
+                    )) : ""}
+                  </div>
+
                 </div>
               </div>
-             
-            
+            </div>
+
+
           </div>
         </div>
         <div className="calendarContainer">

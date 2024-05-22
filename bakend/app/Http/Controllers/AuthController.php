@@ -64,6 +64,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:30|unique:users',
             'password' => 'required|string|confirmed|min:6',
             'groups' => 'required',
+            'filieres_group_id' =>'required',
         ]);
 
         if($validator->fails()){

@@ -11,50 +11,50 @@ const daysOfWeek = ['1', '2', '3', '4', '5', '6', '7'];
 class Calendar extends Component {
     constructor(props) {
         super(props);
-        this.state = { events: [], selectedEvent: null, descBox: null , recherche:null,SavedData:[] };
+        this.state = { events: [], selectedEvent: null, descBox: null, recherche: null, SavedData: [] };
     }
     componentDidUpdate(prevProps) {
-        console.log(this.props.nameMatiere)
-        console.log(prevProps)
-        if (this.props.nameMatiere !== prevProps.nameMatiere) {
-          console.log('codeenseignant changed:', this.props.nameMatiere  );
-          this.addEventsToCalendar(this.props.nameMatiere)
+        console.log(this.props.codeenseignant)
+
+        if (this.props.codeenseignant !== prevProps.codeenseignant) {
+            console.log('codeenseignant changed:', this.props.codeenseignant);
+            this.addEventsToCalendar(this.props.codeenseignant)
         }
-      }
+    }
     /**
      * Displays user's courses on the calendar
     */
-    addEventsToCalendar = (nameensigen) => {
-      
-                fetch(`/exam/bymatiere/${nameensigen}`)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`Unable to get courses for ${nameensigen}`);
-                        }
-                        return response.json();
-                    })
-                    .then((classes) => {
-                        const updatedEvents = [...this.state.events];
-                        classes.forEach((c) => {
-                            const classNum = c.salle;
-                            const subject = c.module;
-                            const description = c.enseignant;
-                            const day = c.jour;
-                            const startTime = c.hdebut;
-                            const endTime = c.hfin;
-                      
-                            const events = this.state.events.slice();
-                            updatedEvents.push({  day, startTime, endTime, classNum, subject });
-                            this.setState({ events });
-                           
-                        });
-                        this.setState({ events: updatedEvents });
-                        this.setState({SavedData:updatedEvents})
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-         
+    addEventsToCalendar = (codeenseignant) => {
+
+        fetch(`/exam/byensignent/${codeenseignant}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Unable to get courses for ${codeenseignant}`);
+                }
+                return response.json();
+            })
+            .then((classes) => {
+                const updatedEvents = [...this.state.events];
+                classes.forEach((c) => {
+                    const classNum = c.salle;
+                    const subject = c.module;
+                    const description = c.enseignant;
+                    const day = c.jour;
+                    const startTime = c.hdebut;
+                    const endTime = c.hfin;
+
+                    const events = this.state.events.slice();
+                    updatedEvents.push({ day, startTime, endTime, classNum, subject });
+                    this.setState({ events });
+
+                });
+                this.setState({ events: updatedEvents });
+                this.setState({ SavedData: updatedEvents })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
     };
 
     /**
@@ -64,8 +64,8 @@ class Calendar extends Component {
         let codeenseignant = this.props.nameensigent
         this.addEventsToCalendar(codeenseignant);
     }
-    onchangeFilter(event){
- 
+    onchangeFilter(event) {
+
     }
 
     /**
@@ -74,11 +74,11 @@ class Calendar extends Component {
      * @param day - day of the week
      */
     handleEventClick = (event, day) => {
-  
+
 
         const { selectedEvent, descBox } = this.state;
         if (selectedEvent === event) {
-            
+
             this.setState({ selectedEvent: null, descBox: null });
             return;
         }
@@ -108,12 +108,12 @@ class Calendar extends Component {
         descName.className = 'eventName';
 
         const descText = document.createElement('div');
-        
+
         descText.innerHTML = startTime + ' - ' + event.endTime;
         descText.className = 'desc-text';
         const profText = document.createElement('div');
-        
-        profText.innerHTML =  event.classNum;
+
+        profText.innerHTML = event.classNum;
         profText.className = 'profText';
         const closeButton = document.createElement('div');
         closeButton.innerHTML = renderToString(<Cg.CgClose />);
@@ -136,8 +136,8 @@ class Calendar extends Component {
      * @param descBox - description box for selected event
      */
     handleCloseBoxClick = (e, descBox) => {
-       
-        if(descBox){
+
+        if (descBox) {
             descBox.remove();
         }
         this.setState({ selectedEvent: null, descBox: null });
@@ -149,24 +149,24 @@ class Calendar extends Component {
      */
     renderEvents = (dayOfWeek) => {
         return this.state.events.map((event) => {
-         
+
             if (event.day.includes(dayOfWeek)) {
                 const startTime = event.startTime.split(":");
                 let startHour, startMinute;
                 startHour = startTime[0]
-                startMinute=startTime[1]
+                startMinute = startTime[1]
 
                 const endTime = event.endTime.split(":");
                 let endHour, endMinute;
-                endHour=endTime[0]
+                endHour = endTime[0]
                 endMinute = endTime[1]
-            
+
 
                 const duration = (endHour - startHour) * 60 + (endMinute - startMinute);
 
 
                 if (startHour >= 7 && endHour <= 21 && startHour < endHour) {
-          
+
 
                     return (
                         <li
@@ -178,9 +178,9 @@ class Calendar extends Component {
                             }}
                             onClick={(e) => this.handleEventClick({ ...event, target: e.currentTarget }, dayOfWeek)}
                         >
-                           
-                           <div className="eventNameTime">
-                                {event.subject} {event.classNum} 
+
+                            <div className="eventNameTime">
+                                {event.subject} {event.classNum}
                             </div>
                         </li>
                     );

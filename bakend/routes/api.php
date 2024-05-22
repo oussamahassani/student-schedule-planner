@@ -52,7 +52,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/filiere', [FiliereController::class, 'getAllData']);
+Route::get('/filiereGroup', [FiliereController::class, 'getAllDataFiliereGroupe']);
 
+Route::get('/filiereByGroupId/{groupid}', [FiliereController::class, 'getAllDataByGroupId']);
 Route::get('/enseignant', [EnseignantController::class, 'getAllData']);
 
 // Fetch emplois by filiere

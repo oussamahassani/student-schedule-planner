@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Filiere;
 use Illuminate\Http\Request;
-
+use App\Models\FiliereGroupe;
 class FiliereController extends Controller
 {
     /**
@@ -22,6 +22,7 @@ class FiliereController extends Controller
     public function index()
     {
         $data['filieres'] = Filiere::orderBy('id_filiere','asc')->paginate(15);
+      
         return view('filieres.index', $data);
     }
 
@@ -31,8 +32,8 @@ class FiliereController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('filieres.create');
+    {   $filiereGroup = FiliereGroupe::all();
+        return view('filieres.create' , ['filiereGroup' =>$filiereGroup]);
     }
 
     /**
@@ -50,6 +51,7 @@ class FiliereController extends Controller
             $filiere = new Filiere;
             $filiere->nomfil = $request->nomfil;
             $filiere->cycle = $request->cycle;
+            $filiere->filieres_group_id = $request->filieres_group_id;
             $filiere->save();
             return redirect()->route('filieres.index')
             ->with('success','filiere has been created successfully.');
@@ -119,5 +121,12 @@ class FiliereController extends Controller
     public function getAllData()
     {
         return Filiere::all();
+    }
+    public function getAllDataFiliereGroupe(){
+    return FiliereGroupe::all();
+}
+    public function getAllDataByGroupId($groupid){
+        return Filiere::where('filieres_group_id', $groupid)->get();
+
     }
 }

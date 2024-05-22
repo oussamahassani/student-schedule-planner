@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./Sign-up.css"
 import httpClient from "../../httpClient";
 import logo3 from '../../public/logo3.png'
@@ -7,23 +7,29 @@ import logo3 from '../../public/logo3.png'
  *
  * @returns {JSX.Element} Returns the JSX element with registration form.
  */
-const Sign_Up = ()=> {
-  let Listgroups = ["group1","group2"]
+const Sign_Up = () => {
+  let Listgroups = ["group1", "group2"]
   const [filiere, setFiliere] = useState([]);
+  const [filiereFiltred, setFiliereFiltred] = useState([]);
+  const [filiereGroup, setFiliereGroup] = useState([]);
   /**
    * State to store user's email.
    */
   const [email, setEmail] = useState("");
   useEffect(() => {
     httpClient.get("/filiere")
-    .then(res => setFiliere(res.data))
-     .catch(err => console.log(err))
+      .then(res => setFiliere(res.data))
+      .catch(err => console.log(err))
+    httpClient.get("/filiereGroup")
+      .then(res => setFiliereGroup(res.data))
+      .catch(err => console.log(err))
+
     return () => {
-      
+
     }
   }, [])
   const [selectedfiliere, setFiliereSelected] = useState();
-
+  const [selectedGroupefiliere, setselectedGroupefiliere] = useState();
   /**
    * State to store user's password.
    */
@@ -40,7 +46,7 @@ const Sign_Up = ()=> {
   const [lName, setLName] = useState("");
   const [groups, setGroup] = useState("");
 
-  const [error, setError] =useState("");
+  const [error, setError] = useState("");
 
   /**
    * Function to handle user registration.
@@ -54,11 +60,12 @@ const Sign_Up = ()=> {
       const resp = await httpClient.post("/auth/register", {
         email,
         password,
-        password_confirmation:password,
-        name:fName,
+        password_confirmation: password,
+        name: fName,
         lName,
         groups,
-        id_filiere:selectedfiliere
+        id_filiere: selectedfiliere,
+        filieres_group_id: selectedGroupefiliere,
       });
 
 
@@ -71,7 +78,7 @@ const Sign_Up = ()=> {
   return (
     <div className="initialWrapper">
       <div className="initialForm">
-        <img className="logo" src={logo3}/>
+        <img className="logo" src={logo3} />
         <div className="initialText">
           <h2>Sign up</h2>
           {error && <div className="error">{error}</div>}
@@ -120,6 +127,25 @@ const Sign_Up = ()=> {
                 id=""
               />
             </div>
+
+
+            <div>
+              <p className="initialP">filiere</p>
+              <select
+                value={selectedGroupefiliere}
+                className='form-control'
+                required
+                onChange={(e) => {
+                  setselectedGroupefiliere(e.target.value); setFiliereFiltred(filiere.filter(el => el.filieres_group_id == e.target.value
+                  ))
+                }}
+                id=""
+              >
+                <option>selectioner votre filiere</option>
+                {filiereGroup.map((el, index) => { return (<option key={index} value={el.id}>{el.group_name}</option>) }
+                )}
+              </select>
+            </div>
             <div>
               <p className="initialP">Classe</p>
               <select
@@ -130,9 +156,9 @@ const Sign_Up = ()=> {
                 id=""
               >
                 <option>selectioner votre class</option>
-                {filiere.map((el,index) => {return(<option key={index} value={el.id_filiere}>{el.cycle +"-"+ el.nomfil}</option>)}
-  )}
-                </select>
+                {filiereFiltred.map((el, index) => { return (<option key={index} value={el.id_filiere}>{el.cycle + "-" + el.nomfil}</option>) }
+                )}
+              </select>
             </div>
             <div>
               <p className="initialP">groups</p>
@@ -144,9 +170,9 @@ const Sign_Up = ()=> {
                 id=""
               >
                 <option>selectioner votre group</option>
-                {Listgroups.map((el,index) => {return(<option key={index} value={el}>{el}</option>)}
-  )}
-                </select>
+                {Listgroups.map((el, index) => { return (<option key={index} value={el}>{el}</option>) }
+                )}
+              </select>
             </div>
             <button className="initialButton" type="button" onClick={() => registerUser()}>
               Submit
