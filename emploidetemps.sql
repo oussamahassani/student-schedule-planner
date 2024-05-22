@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 20 mai 2024 à 00:12
--- Version du serveur : 5.7.36
--- Version de PHP : 8.0.13
+-- Généré le : mer. 22 mai 2024 à 14:25
+-- Version du serveur : 10.6.0-MariaDB
+-- Version de PHP : 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -117,8 +117,8 @@ CREATE TABLE IF NOT EXISTS `enseignants` (
   `ncin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Sexe` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `codedepartement` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `xcasier` int(11) NOT NULL DEFAULT '0',
-  `ycasier` int(11) NOT NULL DEFAULT '0',
+  `xcasier` int(11) NOT NULL DEFAULT 0,
+  `ycasier` int(11) NOT NULL DEFAULT 0,
   `nomar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `prenomar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -282,7 +282,7 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -300,34 +300,46 @@ CREATE TABLE IF NOT EXISTS `filieres` (
   `cycle` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `filieres_group_id` int(30) NOT NULL,
   PRIMARY KEY (`id_filiere`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `filieres`
 --
 
-INSERT INTO `filieres` (`id_filiere`, `nomfil`, `cycle`, `created_at`, `updated_at`) VALUES
-(1, 'licence resaux', 'licence', NULL, NULL),
-(2, 'genie logiciel', 'ingénieur', '2024-04-01 22:30:31', '2024-04-17 22:30:31');
+INSERT INTO `filieres` (`id_filiere`, `nomfil`, `cycle`, `created_at`, `updated_at`, `filieres_group_id`) VALUES
+(1, 'licence resaux', 'licence', '2024-05-15 08:27:48', '2024-05-15 08:27:55', 1),
+(2, 'genie logiciel', 'ingénieur', '2024-04-01 22:30:31', '2024-04-17 22:30:31', 1),
+(3, 'azerty', '123456789', '2024-05-22 07:34:50', '2024-05-22 07:34:50', 1),
+(4, 'azerty', 'newone', '2024-05-22 07:35:26', '2024-05-22 07:35:26', 5);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `filiere_groupe`
+-- Structure de la table `filiere_groupes`
 --
 
-DROP TABLE IF EXISTS `filiere_groupe`;
-CREATE TABLE IF NOT EXISTS `filiere_groupe` (
+DROP TABLE IF EXISTS `filiere_groupes`;
+CREATE TABLE IF NOT EXISTS `filiere_groupes` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `filiere_id` bigint(20) UNSIGNED NOT NULL,
-  `groupe_id` bigint(20) UNSIGNED NOT NULL,
+  `group_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `filiere_groupe_filiere_id_foreign` (`filiere_id`),
-  KEY `filiere_groupe_groupe_id_foreign` (`groupe_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `filiere_groupe_filiere_id_foreign` (`group_name`(250))
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `filiere_groupes`
+--
+
+INSERT INTO `filiere_groupes` (`id`, `group_name`, `created_at`, `updated_at`) VALUES
+(1, 'Sciences de l’ingénieur', '2024-05-22 08:24:27', '2024-05-22 08:24:35'),
+(2, 'Sciences humaines et sociales', '2024-05-22 08:24:38', '2024-05-22 08:24:41'),
+(3, 'Sciences', '2024-05-22 08:24:45', '2024-05-22 08:24:45'),
+(4, 'Réseaux Informatiques et Télécommunications', '2024-05-22 08:26:33', '2024-05-22 08:26:33'),
+(5, 'Systèmes Électroniques et Informatiques', '2024-05-22 08:27:15', '2024-05-22 08:27:15');
 
 -- --------------------------------------------------------
 
@@ -343,9 +355,9 @@ CREATE TABLE IF NOT EXISTS `groupes` (
   `typegroupe` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `effectif` int(11) NOT NULL DEFAULT '0',
-  `x` int(11) NOT NULL DEFAULT '-1',
-  `y` int(11) NOT NULL DEFAULT '-1',
+  `effectif` int(11) NOT NULL DEFAULT 0,
+  `x` int(11) NOT NULL DEFAULT -1,
+  `y` int(11) NOT NULL DEFAULT -1,
   `codedepartement` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `codegroupew` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_gr`)
@@ -674,7 +686,7 @@ CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -745,23 +757,24 @@ CREATE TABLE IF NOT EXISTS `users` (
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT '0',
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
   `id_filiere` int(11) DEFAULT NULL,
   `groups` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filieres_group_id` int(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `admin`, `id_filiere`, `groups`) VALUES
-(1, 'oussama', 'admin@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-22 21:21:08', '2024-04-22 21:21:08', 1, 1, '1'),
-(2, 'sami', 'stud1@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-23 21:22:43', '2024-04-23 21:22:43', 0, 1, '2'),
-(3, 'sami', 'stud2@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-23 21:27:28', '2024-04-23 21:27:28', 0, 1, '1'),
-(4, 'test', 'ex1@gmail.com', NULL, '$2y$10$ldv5KwOy/w5tXbULJe.GcuL1VpRKh5u4eEs6CRSi0Tztm8W1pouMO', NULL, '2024-04-30 17:45:08', '2024-04-30 17:45:08', 0, 2, '2'),
-(7, 'azerty', 'azertt@gmail.com', NULL, '$2y$10$1sR496IYainqg.6S1HSKA.C0kX8FbDSzGrmBCQHikIsoazuUc9vfe', NULL, '2024-05-19 22:36:45', '2024-05-19 22:36:45', 0, 1, 'group2');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `admin`, `id_filiere`, `groups`, `filieres_group_id`) VALUES
+(1, 'oussama', 'admin@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', 'hLHeoKHLiJ9QRr384Mn9j9XZsMKdvOmTtEALpPHiet78EJMa6bSpOfaFygpF', '2024-04-22 21:21:08', '2024-04-22 21:21:08', 1, 1, 'group2', 1),
+(2, 'sami', 'stud1@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-23 21:22:43', '2024-04-23 21:22:43', 0, 1, 'group1', 1),
+(3, 'sami', 'stud2@gmail.com', NULL, '$2y$10$DcLuEl.vmfbZRO9kTkBdlOQFkjI8hs0yplnpFGsxcP6H9qOjefQGa', NULL, '2024-04-23 21:27:28', '2024-04-23 21:27:28', 0, 1, 'group1', 1),
+(4, 'test', 'ex1@gmail.com', NULL, '$2y$10$ldv5KwOy/w5tXbULJe.GcuL1VpRKh5u4eEs6CRSi0Tztm8W1pouMO', NULL, '2024-04-30 17:45:08', '2024-04-30 17:45:08', 0, 2, 'group1', 1),
+(7, 'azerty', 'azertt@gmail.com', NULL, '$2y$10$1sR496IYainqg.6S1HSKA.C0kX8FbDSzGrmBCQHikIsoazuUc9vfe', NULL, '2024-05-19 22:36:45', '2024-05-19 22:36:45', 0, 1, 'group2', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
